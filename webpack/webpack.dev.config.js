@@ -1,20 +1,19 @@
-
 const { merge } = require('webpack-merge')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpack = require('webpack')
-const base = require('./webpack.base.config')
 const path = require('path')
+const base = require('./webpack.base.config')
 
 module.exports = merge({}, {
-  mode: "development",
-  devtool: "source-map",
+  mode: 'development',
+  devtool: 'source-map',
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('development')
-      }
-    })
+        NODE_ENV: JSON.stringify('development'),
+      },
+    }),
   ],
   module: {
     rules: [
@@ -22,8 +21,8 @@ module.exports = merge({}, {
         test: /\.css$/,
         include: /node_modules/,
         use: [
-          "style-loader",
-          "css-loader"
+          'style-loader',
+          'css-loader',
         ],
       },
       {
@@ -43,7 +42,26 @@ module.exports = merge({}, {
         ],
       },
       {
+        // for node_module less
         test: /\.less$/,
+        include: /node_modules/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        exclude: /node_modules/,
         use: [
           'style-loader',
           {
@@ -60,21 +78,20 @@ module.exports = merge({}, {
             loader: 'less-loader',
           },
         ],
-      }
-    ]
+      },
+    ],
   },
   devServer: {
     host: process.env.HOST || '0.0.0.0',
     port: process.env.PORT || 8080,
     // proxy: {
-      //   '/api': {
-      //     target: 'http://you-awesome.api',
-      //     pathRewrite: { '^/api': '' },
-      //     secure: false,
-      //     changeOrigin: true,
-      //   },
-      // },
-  }
+    //   '/api': {
+    //     target: 'http://you-awesome.api',
+    //     pathRewrite: { '^/api': '' },
+    //     secure: false,
+    //     changeOrigin: true,
+    //   },
+    // },
+  },
 },
-base
-)
+base)

@@ -1,17 +1,15 @@
-
 const path = require('path')
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-
+const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
-    index: [path.resolve(__dirname, "../src/index.js")]
+    index: [path.resolve(__dirname, '../src/index.js')],
   },
   output: {
     filename: '[name].[chunkhash].bundle.js',
-    path:  path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, '../dist'),
     chunkFilename: '[name].[chunkhash].chunk.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.', '.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -20,6 +18,8 @@ module.exports = {
     react: 'React',
     'react-dom': 'ReactDOM',
     'prop-types': 'PropTypes',
+    axios: 'axios',
+    antd: 'antd',
   },
   module: {
     rules: [
@@ -27,8 +27,8 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.ejs$/,
@@ -36,21 +36,21 @@ module.exports = {
           {
             loader: 'ejs-loader',
             options: {
-              esModule: false
-            }
-          }
+              esModule: false,
+            },
+          },
         ],
       },
       {
         test: /\.(png|jpg|jpeg|gif|eot|svg|ttf|woff)$/,
         use: ['file-loader?name=[hash:base64:7].[ext]'],
       },
-    ]
+    ],
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: path.resolve(__dirname, "../index.ejs"),
-      filename: path.resolve(__dirname, '../dist/index.html')
-    })
-  ]
-};
+      template: path.resolve(__dirname, '../index.ejs'),
+      filename: path.resolve(__dirname, '../dist/index.html'),
+    }),
+  ],
+}

@@ -1,34 +1,35 @@
-
 const { merge } = require('webpack-merge')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpack = require('webpack')
-const base = require('./webpack.base.config')
 const path = require('path')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin')  // 因为 webpack5 下报错 `[DEP_WEBPACK_COMPILATION_OPTIMIZE_CHUNK_ASSETS] DeprecationWarning: optimizeChunkAssets is deprecated (use Compilation.hooks.processAssets instead and use one of Compilation.PROCESS_ASSETS_STAGE_* as stage option)`
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+// const AnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const base = require('./webpack.base.config')
 
 module.exports = merge({}, {
-  mode: "production",   // production 会自动压缩js
+  mode: 'production', // production 会自动压缩js
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin(),
-      new CssMinimizerPlugin()
+      new CssMinimizerPlugin(),
     ],
     splitChunks: {
-      chunks: 'all'
-    }
+      chunks: 'all',
+    },
   },
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
+        NODE_ENV: JSON.stringify('production'),
+      },
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    // new AnalyzerPlugin(),
   ],
   module: {
     rules: [
@@ -37,7 +38,7 @@ module.exports = merge({}, {
         include: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader"
+          'css-loader',
         ],
       },
       {
@@ -57,7 +58,26 @@ module.exports = merge({}, {
         ],
       },
       {
+        // for node_module less
         test: /\.less$/,
+        include: /node_modules/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -74,9 +94,8 @@ module.exports = merge({}, {
             loader: 'less-loader',
           },
         ],
-      }
-    ]
+      },
+    ],
   },
 },
-  base
-)
+base)
