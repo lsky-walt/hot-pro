@@ -7,6 +7,9 @@ const base = require('./webpack.base.config')
 module.exports = merge({}, {
   mode: 'development',
   devtool: 'source-map',
+  output: {
+    publicPath: '/',
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({

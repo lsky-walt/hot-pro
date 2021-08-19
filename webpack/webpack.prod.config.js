@@ -11,6 +11,9 @@ const base = require('./webpack.base.config')
 
 module.exports = merge({}, {
   mode: 'production', // production 会自动压缩js
+  output: {
+    publicPath: '/hot-pro/',
+  },
   optimization: {
     minimize: true,
     minimizer: [
