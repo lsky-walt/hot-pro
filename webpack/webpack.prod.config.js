@@ -16,7 +16,10 @@ module.exports = merge({}, {
     minimizer: [
       new TerserPlugin(),
       new CssMinimizerPlugin()
-    ]
+    ],
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -31,6 +34,15 @@ module.exports = merge({}, {
     rules: [
       {
         test: /\.css$/,
+        include: /node_modules/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ],
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -39,7 +51,7 @@ module.exports = merge({}, {
               modules: {
                 localIdentName: '[path][name]__[local]--[hash:base64:5]',
               },
-              sourceMap: true,
+              sourceMap: false,
             },
           },
         ],
