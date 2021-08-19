@@ -16,6 +16,44 @@ module.exports = merge({}, {
       }
     })
   ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              },
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              },
+              importLoaders: 2,
+            },
+          },
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+          },
+        ],
+      }
+    ]
+  },
   devServer: {
     host: process.env.HOST || '0.0.0.0',
     port: process.env.PORT || 8080,

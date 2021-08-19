@@ -45,40 +45,6 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|eot|svg|ttf|woff)$/,
         use: ['file-loader?name=[hash:base64:7].[ext]'],
       },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[path][name]__[local]--[hash:base64:5]',
-              },
-              sourceMap: true,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[path][name]__[local]--[hash:base64:5]',
-              },
-              importLoaders: 2,
-            },
-          },
-          'postcss-loader',
-          {
-            loader: 'less-loader',
-          },
-        ],
-      }
     ]
   },
   plugins: [
