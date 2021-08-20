@@ -45,6 +45,7 @@
     "webpack-merge": "^5.0.9"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
@@ -52,7 +53,8 @@
     "antd": "^4.16.12",
     "axios": "^0.21.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0"
   },
   "private": true
 }

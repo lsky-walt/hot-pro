@@ -1,71 +1,63 @@
 import React from 'react'
-import { Spin, Button } from 'antd'
-import axios from 'axios'
-import Content from './components/content'
+import {
+  Layout,
+} from 'antd'
+import {
+  HashRouter, Switch, Route, Link,
+} from 'react-router-dom'
+import Header from './components/header'
+import Sider from './components/side'
+
+import Hot from './hot'
+import Battle from './battle'
 
 import styles from './app.less'
+
+const { Content } = Layout
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      data: [],
-      target: 0,
-      loading: true,
+      collapsed: false,
     }
 
-    this.map = [
-      { language: 'All', url: 'https://api.github.com/search/repositories?q=stars:%3E1&sort=stars&order=desc&type=Repositories' },
-      { language: 'Javascript', url: 'https://api.github.com/search/repositories?q=stars:%3E1+language:javascript&sort=stars&order=desc&type=Repositories' },
-      { language: 'Ruby', url: 'https://api.github.com/search/repositories?q=stars:%3E1+language:ruby&sort=stars&order=desc&type=Repositories' },
-      { language: 'Java', url: 'https://api.github.com/search/repositories?q=stars:%3E1+language:java&sort=stars&order=desc&type=Repositories' },
-      { language: 'CSS', url: 'https://api.github.com/search/repositories?q=stars:%3E1+language:css&sort=stars&order=desc&type=Repositories' },
-    ]
-
-    this.getGithubData = this.getGithubData.bind(this)
+    this.toggle = this.toggle.bind(this)
   }
 
-  componentDidMount() {
-    // did mount, init data
-    this.getGithubData(0)
-  }
-
-  handleButtonClick(index) {
-    const { target, loading } = this.props
-    if (target === index || loading) return
-    this.getGithubData(index)
-    this.setState({ target: index })
-  }
-
-  getGithubData(index) {
-    this.setState({ loading: true })
-    axios.get(this.map[index].url).then((res) => {
-      const { items } = res.data
-      this.setState({ loading: false, data: items })
+  toggle() {
+    const { collapsed } = this.state
+    this.setState({
+      collapsed: !collapsed,
     })
   }
 
   render() {
-    const { loading, data, target } = this.state
-
+    const {
+      collapsed,
+    } = this.state
     return (
-      <div className={styles.app}>
-        <Spin spinning={loading} />
-        <div>
-          {this.map.map((value, index) => {
-            const { language } = value
-            return (
-              <Button key={language} loading={target === index ? loading : false} type={target === index ? 'link' : 'text'} onClick={this.handleButtonClick.bind(this, index)}>
-                {language}
-              </Button>
-            )
-          })}
-        </div>
-        <div className={styles.content}>
-          <Content data={data} />
-        </div>
-      </div>
+      <HashRouter>
+        <Layout className={styles.container}>
+          <Sider collapsed={collapsed} />
+          <Layout className={styles['site-layout']}>
+            <Header
+              collapsed={this.state.collapsed}
+              onToggle={this.toggle}
+            />
+            <Content
+              className={`${styles['site-layout-background']} ${styles.content}`}
+            >
+              <Switch>
+                <Route exact path="/"><Hot /></Route>
+                <Route path="/hot"><Hot /></Route>
+                <Route path="/battle"><Battle /></Route>
+              </Switch>
+            </Content>
+          </Layout>
+        </Layout>
+      </HashRouter>
     )
   }
 }

@@ -7,19 +7,21 @@ import styles from './style.less'
 
 const { Meta } = Card
 
+const GridConfig = {
+  gutter: 16,
+  xs: 1,
+  sm: 2,
+  md: 4,
+  lg: 4,
+  xl: 6,
+  xxl: 3,
+}
+
 const Content = (props) => {
   const { data } = props
   return (
     <List
-      grid={{
-        gutter: 16,
-        xs: 1,
-        sm: 2,
-        md: 4,
-        lg: 4,
-        xl: 6,
-        xxl: 3,
-      }}
+      grid={GridConfig}
       dataSource={data}
       renderItem={(item) => (
         <List.Item>
