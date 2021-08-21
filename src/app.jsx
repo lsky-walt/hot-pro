@@ -3,10 +3,10 @@ import {
   Layout,
 } from 'antd'
 import {
-  HashRouter, Switch, Route, Link,
+  HashRouter, Switch, Route,
 } from 'react-router-dom'
 import Header from './components/header'
-import Sider from './components/side'
+import Sider, { Popular, Battle as Ba } from './components/side'
 
 import Hot from './hot'
 import Battle from './battle'
@@ -51,8 +51,8 @@ export default class App extends React.Component {
             >
               <Switch>
                 <Route exact path="/"><Hot /></Route>
-                <Route path="/hot"><Hot /></Route>
-                <Route path="/battle"><Battle /></Route>
+                <Route path={`/${Popular}`}><Hot /></Route>
+                <Route path={`/${Ba}`}><Battle /></Route>
               </Switch>
             </Content>
           </Layout>

@@ -26,11 +26,19 @@ export default class App extends React.Component {
     ]
 
     this.getGithubData = this.getGithubData.bind(this)
+
+    this.source = null
   }
 
   componentDidMount() {
     // did mount, init data
     this.getGithubData(0)
+  }
+
+  componentWillUnmount() {
+    if (this.source) {
+      this.source.cancel('Component will unmount, request will be canceled.')
+    }
   }
 
   handleButtonClick(index) {
@@ -42,9 +50,19 @@ export default class App extends React.Component {
 
   getGithubData(index) {
     this.setState({ loading: true })
-    axios.get(this.map[index].url).then((res) => {
+    const { CancelToken } = axios
+    this.source = CancelToken.source()
+    axios.get(this.map[index].url, {
+      cancelToken: this.source.token,
+    }).then((res) => {
       const { items } = res.data
       this.setState({ loading: false, data: items })
+      this.source = null
+    }).catch((thrown) => {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled', thrown.message)
+      }
+      this.source = null
     })
   }
 
