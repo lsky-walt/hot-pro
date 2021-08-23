@@ -24,10 +24,17 @@ function getUrlHash() {
   return arr[0]
 }
 
+function handleLocation(pathname) {
+  if (!pathname) return Popular
+  return pathname
+}
+
 export default function SideComponent(props) {
   const { collapsed } = props
 
-  const [current, setCur] = useState(getUrlHash())
+  const init = getUrlHash()
+
+  const [current, setCur] = useState(init)
 
   const [locationKeys, setLocationKeys] = useState([])
 
@@ -46,11 +53,11 @@ export default function SideComponent(props) {
       if (locationKeys[1] === location.pathname) {
         setLocationKeys(([_, ...keys]) => keys)
         // Handle forward event
-        menuOnClick({ key: location.pathname.replace('/', '') })
+        menuOnClick({ key: handleLocation(location.pathname.replace('/', '')) })
       } else {
         setLocationKeys((keys) => [location.pathname, ...keys])
         // Handle back event
-        menuOnClick({ key: location.pathname.replace('/', '') })
+        menuOnClick({ key: handleLocation(location.pathname.replace('/', '')) })
       }
     }
   }), [locationKeys])
