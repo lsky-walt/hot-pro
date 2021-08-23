@@ -14,7 +14,7 @@ const GridConfig = {
   md: 4,
   lg: 4,
   xl: 6,
-  xxl: 3,
+  xxl: 6,
 }
 
 const Content = (props) => {
