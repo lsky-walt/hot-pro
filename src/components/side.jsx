@@ -18,18 +18,16 @@ export const Popular = 'popular'
 export const Battle = 'battle'
 
 function getUrlHash() {
+  if (window.location.hash === '#/') return Popular
   const arr = window.location.hash.replace('#/', '').split('?')
+  if (!arr[0]) return Popular
   return arr[0]
 }
 
 export default function SideComponent(props) {
   const { collapsed } = props
 
-  const [current, setCur] = useState(
-    window.location.hash === '#/'
-      ? Popular
-      : getUrlHash(),
-  )
+  const [current, setCur] = useState(getUrlHash())
 
   const [locationKeys, setLocationKeys] = useState([])
 
