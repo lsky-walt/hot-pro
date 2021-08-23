@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Row, Col, Spin } from 'antd'
+import {
+  Row, Col, Spin, Button,
+} from 'antd'
 import axios from 'axios'
 import Intro from './components/intro'
 import IntroForm from './components/intro-form'
@@ -16,30 +18,32 @@ export default class Battle extends Component {
     this.state = {
       loading: false,
       mode: '1',
-      one: {},
-      two: {},
+      battle: false,
     }
-    this.submit = this.submit.bind(this)
     this.reset = this.reset.bind(this)
+    this.handleBattle = this.handleBattle.bind(this)
   }
 
-  submit(target) {
-    this.setState({ loading: true })
-    Promise.all(Object.keys(target).map((v) => getGithubData(target[v]))).then((value) => {
-      const [one, two] = value
-      this.setState({
-        loading: false, mode: '2', one: one.data, two: two.data,
-      })
-    })
+  handleBattle() {
+    this.setState({ mode: '2' })
+  }
+
+  submit(target, value) {
+    this[target] = value
+    if (this.one && this.two) {
+      this.setState({ battle: true })
+    }
   }
 
   reset() {
-    this.setState({ mode: '1' })
+    this.one = null
+    this.two = null
+    this.setState({ mode: '1', battle: false })
   }
 
   render() {
     const {
-      mode, one, two, loading,
+      mode, loading, battle,
     } = this.state
     if (mode === '1') {
       return (
@@ -47,13 +51,24 @@ export default class Battle extends Component {
           <Spin size="large" spinning={loading} />
           <Intro />
           <Row justify="center">
-            <Col span={10}>
-              <IntroForm onSubmit={this.submit} />
+            <Col span={8}>
+              <IntroForm label="one" onSubmit={this.submit.bind(this, 'one')} />
+            </Col>
+            <Col span={8}>
+              <IntroForm label="two" onSubmit={this.submit.bind(this, 'two')} />
             </Col>
           </Row>
+          {
+            battle ? (
+              <div className={styles['battle-button']}>
+                <Button type="primary" onClick={this.handleBattle}>Battle</Button>
+              </div>
+            )
+              : null
+          }
         </div>
       )
     }
-    return <IntroResult one={one} two={two} onReset={this.reset} />
+    return <IntroResult one={this.one} two={this.two} onReset={this.reset} />
   }
 }
