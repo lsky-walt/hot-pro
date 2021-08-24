@@ -3,8 +3,8 @@ import {
   Row, Col, Spin, Button,
 } from 'antd'
 import { Link } from 'react-router-dom'
-import Intro from './components/intro'
-import IntroForm from './components/intro-form'
+import Intro from '../../components/intro'
+import IntroForm from '../../components/intro-form'
 import styles from './battle.less'
 
 export default class Battle extends Component {

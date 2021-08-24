@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 import axios from 'axios'
 
-import { parseUrl } from './util'
+import { parseUrl } from '../../util'
 
 function getGithubData(user) {
   return axios.get(`https://api.github.com/users/${user}`)

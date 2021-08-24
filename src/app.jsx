@@ -8,9 +8,9 @@ import {
 import Header from './components/header'
 import Sider, { Popular, Battle as Ba } from './components/side'
 
-import Hot from './hot'
-import Battle from './battle'
-import Result from './result'
+import Hot from './page/hot'
+import Battle from './page/battle'
+import Result from './page/result'
 
 import styles from './app.less'
 
