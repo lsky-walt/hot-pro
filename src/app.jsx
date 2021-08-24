@@ -5,16 +5,18 @@ import {
 import {
   HashRouter, Switch, Route,
 } from 'react-router-dom'
+import loadable from '@loadable/component'
 import Header from './components/header'
 import Sider, { Popular, Battle as Ba } from './components/side'
 
 import Hot from './page/hot'
-import Battle from './page/battle'
-import Result from './page/result'
 
 import styles from './app.less'
 
 const { Content } = Layout
+
+const LazyBattle = loadable(() => import("./page/battle"))
+const LazyResult = loadable(() => import("./page/result"))
 
 export default class App extends React.Component {
   constructor(props) {
@@ -53,8 +55,8 @@ export default class App extends React.Component {
               <Switch>
                 <Route exact path="/"><Hot /></Route>
                 <Route path={`/${Popular}`}><Hot /></Route>
-                <Route path={`/${Ba}`} exact><Battle /></Route>
-                <Route path={`/${Ba}/result`}><Result /></Route>
+                <Route path={`/${Ba}`} exact><LazyBattle /></Route>
+                <Route path={`/${Ba}/result`}><LazyResult /></Route>
               </Switch>
             </Content>
           </Layout>
