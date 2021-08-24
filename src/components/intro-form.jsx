@@ -97,39 +97,4 @@ class IntroForm extends React.Component {
   }
 }
 
-// const IntroForm = ({ onSubmit, label }) => {
-//   const onFinish = (value) => {
-//     // onSubmit(values)
-//     getGithubData(value.item).then((res) => {
-//       console.log(res)
-//     }).catch((error) => {
-//       message.error(error.response.data.message, 3)
-//     })
-//   }
-
-//   return (
-//     <Form
-//       name="basic"
-//       labelCol={{ span: 8 }}
-//       wrapperCol={{ span: 16 }}
-//       onFinish={onFinish}
-//       layout="inline"
-//     >
-//       <Form.Item
-//         label={label}
-//         name="item"
-//         rules={[{ required: true, message: 'Please input Github name!' }]}
-//       >
-//         <Input />
-//       </Form.Item>
-
-//       <Form.Item>
-//         <Button type="primary" htmlType="submit">
-//           Submit
-//         </Button>
-//       </Form.Item>
-//     </Form>
-//   )
-// }
-
 export default IntroForm

@@ -6,37 +6,40 @@ import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroller'
 import Content from './components/content'
 
+import { parseUrl, stringify } from './util'
+
 import styles from './hot.less'
 
 function appendParamToUrl(name, value) {
   const url = new URL(window.location.href)
-  const [base, urlParam] = window.location.hash.split('?')
+  const [base, urlParam] = parseUrl()
   if (!urlParam) {
     url.hash = `${base}?${name}=${value}`
     window.location.href = url.href
     return
   }
-  const urlParams = urlParam.split(/\\&/g).map((str) => {
-    if (str.indexOf(name) !== -1) {
-      return `${name}=${value}`
+  const urlParams = urlParam.map((val) => {
+    if (val.name === name) {
+      val.value = value
     }
-    return str
+    return val
   })
-  url.hash = `${base}?${urlParams.join('&')}`
+  url.hash = `${base}?${stringify(urlParams)}`
   window.location.href = url.href
 }
 
 function getLanguageFromUrlParams() {
-  const [base, urlParam] = window.location.hash.split('?')
+  const [base, urlParam] = parseUrl()
   if (!urlParam) {
     return 'All'
   }
   let language = ''
-  urlParam.split(/\\&/g).map((str) => {
-    if (str.indexOf('language') !== -1) {
-      [, language] = str.split('=')
+  urlParam.find((val) => {
+    if (val.name === 'language') {
+      language = val.value
+      return true
     }
-    return str
+    return false
   })
   return language
 }
@@ -108,7 +111,7 @@ export default class App extends React.Component {
   getGithubData(index, pageIndex) {
     const { page, data } = this.state
 
-    this.setState({ loading: true })
+    this.setState({ loading: true, target: index })
     const { CancelToken } = axios
     this.source = CancelToken.source()
     axios.get(`${this.map[index].url}&page=${pageIndex || 1}`, {
@@ -116,11 +119,11 @@ export default class App extends React.Component {
     }).then((res) => {
       const { items } = res.data
       if (pageIndex > 1) {
-        this.setState({ loading: false, data: data.concat(items), target: index })
+        this.setState({ loading: false, data: data.concat(items) })
         appendParamToUrl('language', this.map[index].language)
         return
       }
-      this.setState({ loading: false, data: items, target: index })
+      this.setState({ loading: false, data: items })
       appendParamToUrl('language', this.map[index].language)
       this.source = null
     }).catch((thrown) => {

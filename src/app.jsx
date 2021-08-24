@@ -10,6 +10,7 @@ import Sider, { Popular, Battle as Ba } from './components/side'
 
 import Hot from './hot'
 import Battle from './battle'
+import Result from './result'
 
 import styles from './app.less'
 
@@ -52,7 +53,8 @@ export default class App extends React.Component {
               <Switch>
                 <Route exact path="/"><Hot /></Route>
                 <Route path={`/${Popular}`}><Hot /></Route>
-                <Route path={`/${Ba}`}><Battle /></Route>
+                <Route path={`/${Ba}`} exact><Battle /></Route>
+                <Route path={`/${Ba}/result`}><Result /></Route>
               </Switch>
             </Content>
           </Layout>

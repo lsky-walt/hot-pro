@@ -9,6 +9,8 @@ import {
   SketchOutlined,
 } from '@ant-design/icons'
 
+import { parseUrl } from '../util'
+
 import styles from './side.less'
 
 const { Sider } = Layout
@@ -18,10 +20,9 @@ export const Popular = 'popular'
 export const Battle = 'battle'
 
 function getUrlHash() {
-  if (window.location.hash === '#/') return Popular
-  const arr = window.location.hash.replace('#/', '').split('?')
-  if (!arr[0]) return Popular
-  return arr[0]
+  const [,, urls] = parseUrl()
+  if (!urls[0]) return Popular
+  return urls[0]
 }
 
 function handleLocation(pathname) {
