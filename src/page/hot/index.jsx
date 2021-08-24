@@ -75,6 +75,8 @@ export default class App extends React.Component {
       page: 1,
     }
 
+    this.ref = null
+
     getLanguageFromUrlParams()
 
     this.getGithubData = this.getGithubData.bind(this)
@@ -132,7 +134,7 @@ export default class App extends React.Component {
         this.source = null
         return
       }
-      message.error(thrown.response.data.message, 3)
+      message.error(thrown.response ? thrown.response.data.message : thrown.message, 3)
       this.source = null
     })
   }

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react'
 import {
   Card, Image, Row, Col,
@@ -20,6 +21,35 @@ const getSize = () => {
   return lgSize(width) || mdSize(width) || smSize(width)
 }
 
+const Item = ({name, owner, stargazers_count, forks_count, open_issues_count, span}) => (
+    <Col span={span} className={styles.marginBottom} key={name}>
+        <Card
+          hoverable
+          cover={<Image alt={name} src={owner.avatar_url} placeholder={false} preview={false} />}
+        >
+          <Meta
+            title={name}
+            description={(
+              <div>
+                <div className={styles.item}>
+                  <FontAwesomeIcon icon={faStar} />
+                  <span className={styles.text}>{stargazers_count}</span>
+                </div>
+                <div className={styles.item}>
+                  <FontAwesomeIcon icon={faShareSquare} />
+                  <span className={styles.text}>{forks_count}</span>
+                </div>
+                <div className={styles.item}>
+                  <FontAwesomeIcon icon={faDotCircle} />
+                  <span className={styles.text}>{open_issues_count}</span>
+                </div>
+              </div>
+            )}
+          />
+        </Card>
+      </Col>
+  )
+
 const Content = (props) => {
   const { data } = props
   const size = getSize()
@@ -30,64 +60,10 @@ const Content = (props) => {
     return (
       <>
         <Row gutter={16}>
-          {data.slice(0, data.length - 2).map((item) => (
-            <Col span={span} className={styles.marginBottom} key={item.name}>
-              <Card
-                hoverable
-                cover={<Image alt={item.name} src={item.owner.avatar_url} placeholder={false} preview={false} />}
-              >
-                <Meta
-                  title={item.name}
-                  description={(
-                    <div>
-                      <div className={styles.item}>
-                        <FontAwesomeIcon icon={faStar} />
-                        <span className={styles.text}>{item.stargazers_count}</span>
-                      </div>
-                      <div className={styles.item}>
-                        <FontAwesomeIcon icon={faShareSquare} />
-                        <span className={styles.text}>{item.forks_count}</span>
-                      </div>
-                      <div className={styles.item}>
-                        <FontAwesomeIcon icon={faDotCircle} />
-                        <span className={styles.text}>{item.open_issues_count}</span>
-                      </div>
-                    </div>
-                  )}
-                />
-              </Card>
-            </Col>
-          ))}
+          {data.slice(0, data.length - 2).map((item) => (<Item key={item.id} span={span} {...item} />))}
         </Row>
         <Row justify="space-around" gutter={16}>
-          {data.slice(data.length - 2).map((item) => (
-            <Col span={span} className={styles.marginBottom} key={item.name}>
-              <Card
-                hoverable
-                cover={<Image alt={item.name} src={item.owner.avatar_url} placeholder={false} preview={false} />}
-              >
-                <Meta
-                  title={item.name}
-                  description={(
-                    <div>
-                      <div className={styles.item}>
-                        <FontAwesomeIcon icon={faStar} />
-                        <span className={styles.text}>{item.stargazers_count}</span>
-                      </div>
-                      <div className={styles.item}>
-                        <FontAwesomeIcon icon={faShareSquare} />
-                        <span className={styles.text}>{item.forks_count}</span>
-                      </div>
-                      <div className={styles.item}>
-                        <FontAwesomeIcon icon={faDotCircle} />
-                        <span className={styles.text}>{item.open_issues_count}</span>
-                      </div>
-                    </div>
-                  )}
-                />
-              </Card>
-            </Col>
-          ))}
+          {data.slice(data.length - 2).map((item) => (<Item key={item.id} span={span} {...item} />))}
         </Row>
       </>
     )
@@ -95,34 +71,7 @@ const Content = (props) => {
 
   return (
     <Row gutter={16}>
-      {data.map((item) => (
-        <Col span={span} className={styles.marginBottom} key={item.name}>
-          <Card
-            hoverable
-            cover={<Image alt={item.name} src={item.owner.avatar_url} placeholder={false} preview={false} />}
-          >
-            <Meta
-              title={item.name}
-              description={(
-                <div>
-                  <div className={styles.item}>
-                    <FontAwesomeIcon icon={faStar} />
-                    <span className={styles.text}>{item.stargazers_count}</span>
-                  </div>
-                  <div className={styles.item}>
-                    <FontAwesomeIcon icon={faShareSquare} />
-                    <span className={styles.text}>{item.forks_count}</span>
-                  </div>
-                  <div className={styles.item}>
-                    <FontAwesomeIcon icon={faDotCircle} />
-                    <span className={styles.text}>{item.open_issues_count}</span>
-                  </div>
-                </div>
-              )}
-            />
-          </Card>
-        </Col>
-      ))}
+      {data.map((item) => (<Item key={item.id} span={span} {...item} />))}
     </Row>
   )
 }

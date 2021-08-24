@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
-  "homepage": "https://lsky-walt.github.com/hot-pro",
+  "homepage": "https://lsky-walt.github.com/hot-pro/",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
