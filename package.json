@@ -14,7 +14,7 @@
       "prettier --write",
       "git add"
     ],
-    "src/**/*.{js,jsx}": "eslint --ext .js"
+    "src/**/*.{js,jsx}": "eslint ./src --ext '.js,.jsx'"
   },
   "scripts": {
     "start": "webpack serve --config ./webpack/webpack.dev.config.js",
