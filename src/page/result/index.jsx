@@ -27,6 +27,15 @@ export default class BattleResult extends Component {
   componentDidMount() {
     this.setState({ loading: true })
     const [, urlParams] = parseUrl()
+    const plays = urlParams.filter(v => v.name.indexOf('play') !== -1)
+
+    if(plays.length !== 2) {
+      this.setState({loading: false})
+      setTimeout(() => {
+        window.alert('参数异常!')
+      }, 16)
+      return
+    }
     Promise.all(urlParams.map((v) => getGithubData(v.value))).then((arr) => {
       const [first, sec] = arr
       if (first.data.public_repos > sec.data.public_repos) {
@@ -43,7 +52,9 @@ export default class BattleResult extends Component {
         loading: false,
       })
     }).catch((err) => {
-      message.error(err.response.data.message, 3)
+      // message.error(err.response ? err.response.data.message : err.message, 10)
+      window.alert(err.response ? err.response.data.message : err.message)
+      this.setState({loading: false})
     })
   }
 
