@@ -4,9 +4,9 @@ import {
 } from 'antd'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroller'
-import Content from '../../components/content'
+import Content from '@/components/content'
 
-import { parseUrl, stringify } from '../../util'
+import { parseUrl, stringify } from '@/util'
 
 import styles from './hot.less'
 

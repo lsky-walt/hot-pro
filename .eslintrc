@@ -1,6 +1,7 @@
 {
   "extends": [
-    "airbnb"
+    "airbnb",
+    "prettier"
   ],
   "parser": "babel-eslint",
   "env": {
@@ -26,8 +27,21 @@
       "version": "detect"
     },
     "import/resolver": {
-      "webpack": {
-        "config": "./eslint-webpack.js"
+      "alias": {
+        "map": [
+          [
+            "@",
+            "./src"
+          ]
+        ],
+        "extensions": [
+          ".",
+          ".ts",
+          ".tsx",
+          ".js",
+          ".jsx",
+          ".json"
+        ]
       }
     }
   },
