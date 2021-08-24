@@ -7,14 +7,13 @@ import Intro from '@/components/intro'
 import IntroForm from '@/components/intro-form'
 import styles from './battle.less'
 
-console.log('test hook')
-
 export default class Battle extends Component {
   constructor(props) {
     super(props)
     this.state = {
       loading: false,
       battle: false,
+      test: false
     }
     this.reset = this.reset.bind(this)
   }
