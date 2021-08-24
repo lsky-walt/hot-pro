@@ -13,6 +13,7 @@ export default class Battle extends Component {
     this.state = {
       loading: false,
       battle: false,
+      test: false
     }
     this.reset = this.reset.bind(this)
   }
